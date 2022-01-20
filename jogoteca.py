@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, flash, session, url_for
 
+from model.Usuario import Usuario
+
 app = Flask(__name__)
 app.secret_key = 'jao'
 
@@ -11,6 +13,12 @@ class Jogo:
 
 jogo1 = Jogo('Super Mario', 'Acao', 'SNES')
 jogo2 = Jogo('Pokemon Gold', 'RPG', 'GBA')
+usuario1 = Usuario('luan', 'Luan Marques', '1234')
+usuario2 = Usuario('nico', 'Nico Steppat', '7a1')
+usuario3 = Usuario('flavio', 'Flávio', 'javascript')
+usuarios = { usuario1.id: usuario1,
+             usuario2.id: usuario2,
+             usuario3.id: usuario3 }
 lista = [jogo1, jogo2]
 
 @app.route('/')
@@ -40,11 +48,14 @@ def login():
 
 @app.route('/autenticar', methods=['POST',])
 def autenticar():
-    if 'mestra' == request.form['senha']:
-        session ['usuario_logado'] = request.form['usuario']
-        flash(request.form['usuario'] + ' logou com sucesso!')
-        proxima_pagina =  request.form['proxima']
-        return redirect(proxima_pagina)
+    if request.form['usuario'] in usuarios:
+        usuario = usuarios[request.form['usuario']]
+        if usuario.senha == request.form['senha']:
+            session['usuario_logado'] = usuario.id
+            flash(usuario.nome + ' logou com sucesso!')
+            proxima_pagina = request.form['proxima']
+            return redirect(proxima_pagina)
+
     else :
         flash('Não logado, tente de novo!')
         return redirect(url_for('login'))
