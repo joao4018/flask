@@ -12,7 +12,7 @@ jogo1 = Jogo('Super Mario', 'Acao', 'SNES')
 jogo2 = Jogo('Pokemon Gold', 'RPG', 'GBA')
 lista = [jogo1, jogo2]
 
-@app.route('/inicio')
+@app.route('/')
 def index():
     return render_template('lista.html', titulo='Jogos',
                            jogos=lista)
