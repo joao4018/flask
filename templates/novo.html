@@ -1,7 +1,6 @@
 {% extends "template.html" %}
 {% block conteudo %}
-    <form action="criar" method="post">
-
+<form action="{{ url_for('criar') }}" method="post">
         <form>
             <fieldset>
                 <div class="form-group">
