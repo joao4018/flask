@@ -8,10 +8,10 @@ def novo():
         return redirect(url_for('login', proxima=url_for('novo')))
     return render_template('novo.html', titulo='Novo jogo')
 
-def criar(lista):
+def criar(jogoDao):
     nome = request.form['nome']
     categoria = request.form['categoria']
     console = request.form['console']
     jogo = Jogo(nome, categoria, console)
-    lista.append(jogo)
+    jogoDao.salvar(jogo)
     return redirect(url_for('index'))
